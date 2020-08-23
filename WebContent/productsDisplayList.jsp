@@ -39,9 +39,11 @@ Welcome ${visitorprof.userName}
 						<td>${pm.productDescription }</td>
 						<td>${pm.productName }</td>
 						<td>${pm.cost }</td>
-						<td><input type="number" id="${products.index+1 }" name="reqQuantity" value="${pm.reqQuantity}"></input> </td>
+						<td><input type="number" id="${pm.id }" name="reqQuantity" value="${pm.reqQuantity}"></input> </td>
 						<td>
-						<a href='' onclick="this.href='additem?id=${pm.id}&reqQuantity='+document.getElementById('${products.index+1 }').value">Add to cart</a>
+						<a href='' onclick="this.href='additem?id=${pm.id}&reqQuantity='+document.getElementById('${pm.id }').value">Add to cart</a>
+						<span>|</span>
+						<a href='' onclick="this.href='removeitem?id=${pm.id}&reqQuantity='+document.getElementById('${pm.id }').value">Remove from cart</a>
 						</td>
 					</tr> 
 				</c:forEach>

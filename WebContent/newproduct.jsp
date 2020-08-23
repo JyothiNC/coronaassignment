@@ -35,7 +35,7 @@
 		<br/>	
 		<div>
 			<label>Product Cost</label>
-			<input type="text" name="cost" value="${productMaster.cost }" required />
+			<input type="text" name="cost" value="${productMaster.cost }" pattern="([0-9]*)\.([0-9]*)" title="Please enter cost" required />
 		</div>	
 			<br/>
 		<%-- <div>

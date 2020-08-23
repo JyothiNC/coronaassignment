@@ -20,7 +20,7 @@ public class AdminServiceImpl implements AdminService {
 		return prodyuctId!=null && prodyuctId>0;
 	}
 	private boolean isValidProdCost(Double prodCost) {
-		return prodCost!=null && prodCost>0;
+		return prodCost!=null && prodCost>0 ;
 	}
 
 	private boolean isValidProdDesc(String prodDesc) {
@@ -38,19 +38,19 @@ public class AdminServiceImpl implements AdminService {
 		if(prod!=null) {
 			if(!isValidProdId(prod.getId())) {
 				isValid=false;
-				errMsgs.add("Loan Id must be a positive non-repetative number");
+				errMsgs.add("Product Id must be a positive non-repetative number");
 			}
 			if(!isValidProdCost(prod.getCost())) {
 				isValid=false;
-				errMsgs.add("Principal must be a positive non-repetative number");
+				errMsgs.add("Cost must be a positive and only numbers");
 			}
 			if(!isValidProdDesc(prod.getProductDescription())) {
 				isValid=false;
-				errMsgs.add("Rate of Interest must be between 0 and 1");
+				errMsgs.add("product description should not be blank");
 			}
 			if(!isValidProdName(prod.getProductName())) {
 				isValid=false;
-				errMsgs.add("Disbursment Date must be a past date");
+				errMsgs.add("product name should not be blank");
 			}
 			
 			if(!errMsgs.isEmpty()) {

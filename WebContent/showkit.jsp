@@ -11,6 +11,8 @@
 <jsp:include page="header.jsp"/>
 <nav>
 <a href="homepage">Go to Home Page</a>
+<span>|</span>
+<a href="productsDisplayList.jsp">Back to product list</a>
 </nav>
 
 
@@ -46,6 +48,10 @@
 			<strong>Total Amount : </strong>
 			<span>${totalAmt }</span>
 			</p>
+			
+			<nav>
+		<a href="placeorder">Place Order</a>
+		</nav>
 		</c:otherwise>
 	</c:choose>
 	
@@ -53,9 +59,7 @@
 		<p><strong>${msg }</strong></p>
 	</c:if>
 	
-	<nav>
-	<a href="placeorder">Place Order</a>
-	</nav>
+	
 	
 	<jsp:include page="footer.jsp"/>
 </body>

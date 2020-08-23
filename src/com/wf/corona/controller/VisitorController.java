@@ -17,7 +17,7 @@ import com.wf.corona.model.VisitorProfile;
 import com.wf.corona.service.AdminService;
 import com.wf.corona.service.AdminServiceImpl;
 
-@WebServlet({ "/visitorprofile","/visitorlogin","/additem","/showcart","/placeorder","/confirmorder","/homepage"})
+@WebServlet({ "/visitorprofile","/visitorlogin","/additem","/showcart","/placeorder","/confirmorder","/homepage","/removeitem"})
 public class VisitorController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 
@@ -60,9 +60,16 @@ public class VisitorController extends HttpServlet{
 		case "/homepage" : 
 			viewName = "index.jsp";
 			break;
+		case "/removeitem" : 
+			viewName = doremoveItem(request, response);
+			break;
+			default:
+				viewName ="notfound.jsp";
 			
 			
 		}
+		
+				
 
 		request.getRequestDispatcher(viewName).forward(request, response);
 	}
@@ -120,6 +127,7 @@ public class VisitorController extends HttpServlet{
 		String productName = null;
 		for(ProductMaster prodmast : productsList)
 		{
+			
 			if(prodmast.getId()==Integer.parseInt(request.getParameter("id")) && Integer.parseInt(request.getParameter("reqQuantity"))>0)
 			{
 				prodmast.setReqQuantity(Integer.parseInt(request.getParameter("reqQuantity")));
@@ -128,38 +136,20 @@ public class VisitorController extends HttpServlet{
 				break;
 			}
 			
-			else if (Integer.parseInt(request.getParameter("reqQuantity")) == 0)
+			else if (prodmast.getId()==Integer.parseInt(request.getParameter("id")) && Integer.parseInt(request.getParameter("reqQuantity")) == 0)
 			{
-				prodmast.setReqQuantity(Integer.parseInt(request.getParameter("reqQuantity")));
+				
 				productName = prodmast.getProductName();
-				request.setAttribute("msg", "Product " + productName + " is removed from cart");
-				for(ProductMaster selprodmast : selectedProductsList)
-				{
-					if(selprodmast.getId()==Integer.parseInt(request.getParameter("id")))
-					{
-						selectedProductsList.remove(selprodmast);
-						selprodmast=null;
-						session.setAttribute("selectedProductsList", selectedProductsList);
-						break;
-					}
-				}
+				request.setAttribute("msg", "Please select the reuired quantity");
 				return "productsDisplayList.jsp";
 			}
 			 
 		}
 		
-		
 			System.out.println("list" + productsList.size());
 			request.setAttribute("msg", "Product " + productName + " is added to cart");
 			session.setAttribute("productMaster", productsList);
 			session.setAttribute("selectedProductsList", selectedProductsList);
-			List<ProductMaster> productsList1 = (List<ProductMaster>) request.getSession().getAttribute("productMaster");
-			for(ProductMaster prodmast : productsList)
-			{
-				System.out.println("after id " +prodmast.getId());
-				System.out.println("after req " + prodmast.getReqQuantity());
-			}
-		
 			
 		return "productsDisplayList.jsp";
 		
@@ -200,6 +190,56 @@ public class VisitorController extends HttpServlet{
 		vistorProf.setState(request.getParameter("state"));
 		request.setAttribute("visitorprof", vistorProf);
 		return "ordersummary.jsp";
+		
+	}
+	
+	private String doremoveItem(HttpServletRequest request, HttpServletResponse resp)
+	{
+		 HttpSession session = request.getSession();
+		 List<ProductMaster> selectedProductsList = (List<ProductMaster>) session.getAttribute("selectedProductsList");
+		List<ProductMaster> productsList = (List<ProductMaster>) session.getAttribute("productMaster");
+		  System.out.println("id " + request.getParameter("id"));
+		  System.out.println("req quan " + request.getParameter("reqQuantity"));
+		 
+		if(null == productsList)
+		{
+			productsList = new ArrayList<ProductMaster>();
+		}
+		if(null == selectedProductsList)
+		{
+			selectedProductsList = new ArrayList<ProductMaster>();
+		}
+		String productName = null;
+		for(ProductMaster prodmast : productsList)
+		{
+			
+			
+			 if(prodmast.getId()==Integer.parseInt(request.getParameter("id")) && Integer.parseInt(request.getParameter("reqQuantity"))==0)
+			 {
+				 request.setAttribute("msg", "product is not in cart");
+				 //return "productsDisplayList.jsp";
+			 }
+			 else  if (prodmast.getId()==Integer.parseInt(request.getParameter("id")) && Integer.parseInt(request.getParameter("reqQuantity"))>0)
+				{
+					prodmast.setReqQuantity(0);
+					productName = prodmast.getProductName();
+					request.setAttribute("msg", "Product " + productName + " is removed from  cart.");
+					for(ProductMaster selprodmast : selectedProductsList)
+					{
+						if(selprodmast.getId()==Integer.parseInt(request.getParameter("id")))
+						{
+							selectedProductsList.remove(selprodmast);
+							selprodmast=null;
+							session.setAttribute("selectedProductsList", selectedProductsList);
+							break;
+						}
+					}
+					session.setAttribute("productMaster", productsList);
+				}
+			
+		}
+		
+		return "productsDisplayList.jsp";
 		
 	}
 
