@@ -33,7 +33,7 @@ Welcome ${visitorprof.userName}
 					<th>Required Quantity</th>
 					<th>Actions</th>
 				</tr>
-				<c:forEach items="${productMaster }" var="pm" varStatus="products">
+				<c:forEach items="${productMaster }" var="pm" >
 					<tr>
 						<td>${pm.id }</td>
 						<td>${pm.productDescription }</td>
