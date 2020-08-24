@@ -10,12 +10,6 @@
 <jsp:include page="AdminUserLogin.jsp"/>
 <hr/>
 
-<!-- <form action="newproduct" method="post">
-		<div>
-			<div><button>Add new</button></div>
-		</div>
-</form> -->
-
 <h3>${isNew?'Add new product':'Edit product' }</h3>
 <form action="${isNew?'insertproduct':'saveproduct' }" method="post">
 		<div>
@@ -35,18 +29,9 @@
 		<br/>	
 		<div>
 			<label>Product Cost</label>
-			<input type="text" name="cost" value="${productMaster.cost }" pattern="([0-9]*)\.([0-9]*)" title="Please enter cost" required />
+			<input type="text" name="cost" value="${productMaster.cost }" pattern="([0-9]*)(\.)?([0-9]*)?" title="Please enter cost" required />
 		</div>	
 			<br/>
-		<%-- <div>
-			<label>Status</label>
-			<select name="status" required>
-				<option value="">--SELECT--</option>
-				<c:forEach items="${['APPROVED','CLOSED','PENDING','REJECTED']}" var="opt">
-					<option value="${opt }" ${opt.equals(loan.status.trim())?'selected':'') } >${opt }</option>
-				</c:forEach>				
-			</select>
-		</div>	 --%>
 		<button>SAVE</button>		
 	</form>
 
